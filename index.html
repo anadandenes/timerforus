@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Timeless Moments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #555555;
+            overflow: hidden;
+            position: relative;
+            /* Warna cadangan jika gambar gagal dimuat */
+            background-color: #fef2f4; 
+        }
+
+        /* Styling untuk Background Gambar Acak */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Filter untuk sedikit meredupkan gambar agar teks di depan lebih kontras & jelas */
+            filter: brightness(0.85); 
+        }
+
+        .container {
+            /* Warna putih transparan agar background gambar masih terlihat elegan */
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 50px 60px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            max-width: 720px;
+            width: 90%;
+            z-index: 1;
+        }
+
+        .heart-icon {
+            font-size: 1.5rem;
+            color: #d47a94;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #4a3b40;
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.88rem;
+            color: #8c737c;
+            margin-bottom: 35px;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 35px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px 10px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(243, 218, 225, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 122, 148, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .time-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #9e3d61;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #9e8a91;
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+        }
+
+        .footer-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            color: #7d636d;
+            font-style: italic;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 650px) {
+            .timer-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .container {
+                padding: 30px 20px;
+            }
+            .time-value {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Elemen untuk Latar Belakang Gambar Acak -->
+    <div id="random-bg" class="bg-image"></div>
+
+    <div class="container">
+        <div class="heart-icon">♥</div>
+        <h1>Time we has passed since that day</h1>
+        <div class="subtitle">hehehe</div>
+        
+        <div class="timer-grid">
+            <div class="time-box">
+                <div class="time-value" id="years">00</div>
+                <div class="time-label">Tahun</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="months">00</div>
+                <div class="time-label">Bulan</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Hari</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Jam</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Detik</div>
+            </div>
+        </div>
+
+        <div class="footer-quote">"I am counting ayy, reminds me that we're together and alwas will"</div>
+    </div>
+
+    <script>
+        // Menggunakan satu foto tetap (1.jpg)
+document.getElementById('random-bg').style.backgroundImage = `url('1.jpg')`;
+
+
+        // Skrip Timer
+        const startDate = new Date(2026, 6, 18, 8, 0, 0);
+
+        function updateTimer() {
+            const now = new Date();
+            let diff = now - startDate;
+
+            if (diff < 0) {
+                diff = 0; 
+            }
+
+            const secondsTotal = Math.floor(diff / 1000);
+            const minutesTotal = Math.floor(secondsTotal / 60);
+            const hoursTotal = Math.floor(minutesTotal / 60);
+            const daysTotal = Math.floor(hoursTotal / 24);
+
+            const years = Math.floor(daysTotal / 365);
+            const months = Math.floor((daysTotal % 365) / 30);
+            const days = (daysTotal % 365) % 30;
+            const hours = hoursTotal % 24;
+            const seconds = secondsTotal % 60;
+
+            document.getElementById('years').innerText = String(years).padStart(2, '0');
+            document.getElementById('months').innerText = String(months).padStart(2, '0');
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+
+</body>
+</html>
