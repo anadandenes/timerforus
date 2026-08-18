@@ -76,21 +76,31 @@
             font-style: italic;
         }
 
-        /* Grid default untuk Layar Komputer / Laptop (5 kolom sejajar) */
-        .timer-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+        .timer-wrapper {
+            display: flex;
+            flex-direction: column;
             gap: 12px;
             margin-bottom: 25px;
+            align-items: center;
         }
 
+        .timer-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Ukuran kotak diseragamkan agar konsisten */
         .time-box {
             background: rgba(255, 255, 255, 0.7);
-            padding: 15px 5px;
+            padding: 16px 10px;
             border-radius: 14px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(243, 218, 225, 0.8);
             transition: all 0.3s ease;
+            width: 105px; /* Lebar tetap yang sama untuk setiap kotak */
+            flex-shrink: 0;
         }
 
         .time-box:hover {
@@ -123,24 +133,16 @@
             letter-spacing: 0.3px;
         }
 
-        /* Pengaturan Khusus HP / Layar Kecil */
         @media (max-width: 480px) {
-            .timer-grid {
-                grid-template-columns: repeat(6, 1fr); /* Menggunakan 6 kolom agar mudah diatur posisinya */
-                gap: 10px;
+            .container {
+                padding: 30px 15px;
             }
-
-            /* Tahun, Bulan, Hari masing-masing memakan 2 kolom (total 6 kolom = 3 kotak di baris atas) */
-            .time-box:nth-child(1) { grid-column: span 2; }
-            .time-box:nth-child(2) { grid-column: span 2; }
-            .time-box:nth-child(3) { grid-column: span 2; }
-
-            /* Jam dan Detik masing-masing memakan 3 kolom (total 6 kolom = 2 kotak tepat di tengah baris bawah) */
-            .time-box:nth-child(4) { grid-column: 2 / span 3; }
-            .time-box:nth-child(5) { grid-column: 5 / span 3; }
-
+            .time-box {
+                width: 95px; /* Penyesuaian sedikit lebih kecil agar pas di layar HP sempit */
+                padding: 14px 8px;
+            }
             .time-value {
-                font-size: 1.3rem;
+                font-size: 1.25rem;
             }
             h1 {
                 font-size: 1.3rem;
@@ -157,26 +159,33 @@
         <h1>Time we has passed since that day</h1>
         <div class="subtitle">hehehe</div>
         
-        <div class="timer-grid">
-            <div class="time-box">
-                <div class="time-value" id="years">00</div>
-                <div class="time-label">Tahun</div>
+        <div class="timer-wrapper">
+            <!-- Baris Atas: Tahun, Bulan, Hari -->
+            <div class="timer-row">
+                <div class="time-box">
+                    <div class="time-value" id="years">00</div>
+                    <div class="time-label">Tahun</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="months">00</div>
+                    <div class="time-label">Bulan</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="days">00</div>
+                    <div class="time-label">Hari</div>
+                </div>
             </div>
-            <div class="time-box">
-                <div class="time-value" id="months">00</div>
-                <div class="time-label">Bulan</div>
-            </div>
-            <div class="time-box">
-                <div class="time-value" id="days">00</div>
-                <div class="time-label">Hari</div>
-            </div>
-            <div class="time-box">
-                <div class="time-value" id="hours">00</div>
-                <div class="time-label">Jam</div>
-            </div>
-            <div class="time-box">
-                <div class="time-value" id="seconds">00</div>
-                <div class="time-label">Detik</div>
+
+            <!-- Baris Bawah: Jam & Detik -->
+            <div class="timer-row">
+                <div class="time-box">
+                    <div class="time-value" id="hours">00</div>
+                    <div class="time-label">Jam</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="seconds">00</div>
+                    <div class="time-label">Detik</div>
+                </div>
             </div>
         </div>
 
