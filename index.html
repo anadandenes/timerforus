@@ -17,17 +17,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             color: #555555;
-            overflow: hidden;
             position: relative;
-            /* Warna cadangan jika gambar gagal dimuat */
-            background-color: #fef2f4; 
+            background-color: #fef2f4;
+            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* Styling untuk Background Gambar Acak */
         .bg-image {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -36,35 +35,33 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* Filter untuk sedikit meredupkan gambar agar teks di depan lebih kontras & jelas */
             filter: brightness(0.85); 
         }
 
         .container {
-            /* Warna putih transparan agar background gambar masih terlihat elegan */
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 50px 60px;
+            padding: 40px 30px;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.6);
             max-width: 720px;
-            width: 90%;
+            width: 100%;
             z-index: 1;
         }
 
         .heart-icon {
             font-size: 1.5rem;
             color: #d47a94;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             opacity: 0.9;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #4a3b40;
             margin-bottom: 8px;
             font-weight: 500;
@@ -72,24 +69,25 @@
         }
 
         .subtitle {
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             color: #8c737c;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             font-weight: 300;
             font-style: italic;
         }
 
+        /* Grid default untuk Layar Komputer / Laptop (5 kolom sejajar) */
         .timer-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
-            margin-bottom: 35px;
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .time-box {
             background: rgba(255, 255, 255, 0.7);
-            padding: 20px 10px;
-            border-radius: 16px;
+            padding: 15px 5px;
+            border-radius: 14px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(243, 218, 225, 0.8);
             transition: all 0.3s ease;
@@ -98,42 +96,53 @@
         .time-box:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(212, 122, 148, 0.2);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.85);
         }
 
         .time-value {
             font-family: 'Inter', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 500;
             color: #9e3d61;
         }
 
         .time-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             color: #9e8a91;
-            margin-top: 8px;
+            margin-top: 6px;
             font-weight: 500;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .footer-quote {
             font-family: 'Playfair Display', serif;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #7d636d;
             font-style: italic;
             letter-spacing: 0.3px;
         }
 
-        @media (max-width: 650px) {
+        /* Pengaturan Khusus HP / Layar Kecil */
+        @media (max-width: 480px) {
             .timer-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(6, 1fr); /* Menggunakan 6 kolom agar mudah diatur posisinya */
                 gap: 10px;
             }
-            .container {
-                padding: 30px 20px;
-            }
+
+            /* Tahun, Bulan, Hari masing-masing memakan 2 kolom (total 6 kolom = 3 kotak di baris atas) */
+            .time-box:nth-child(1) { grid-column: span 2; }
+            .time-box:nth-child(2) { grid-column: span 2; }
+            .time-box:nth-child(3) { grid-column: span 2; }
+
+            /* Jam dan Detik masing-masing memakan 3 kolom (total 6 kolom = 2 kotak tepat di tengah baris bawah) */
+            .time-box:nth-child(4) { grid-column: 2 / span 3; }
+            .time-box:nth-child(5) { grid-column: 5 / span 3; }
+
             .time-value {
+                font-size: 1.3rem;
+            }
+            h1 {
                 font-size: 1.3rem;
             }
         }
@@ -141,7 +150,6 @@
 </head>
 <body>
 
-    <!-- Elemen untuk Latar Belakang Gambar Acak -->
     <div id="random-bg" class="bg-image"></div>
 
     <div class="container">
@@ -176,11 +184,8 @@
     </div>
 
     <script>
-        // Menggunakan satu foto tetap (1.jpg)
-document.getElementById('random-bg').style.backgroundImage = `url('1.jpg')`;
+        document.getElementById('random-bg').style.backgroundImage = `url('1.jpg')`;
 
-
-        // Skrip Timer
         const startDate = new Date(2026, 6, 18, 8, 0, 0);
 
         function updateTimer() {
